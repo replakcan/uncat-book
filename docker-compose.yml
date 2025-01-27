@@ -1,4 +1,3 @@
-version: '3'
 services:
   backend:
     image: backend
@@ -22,6 +21,7 @@ services:
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
+      - ./frontend/.eslintrc.js:/app/.eslintrc.js
     expose:
       - 8080
 

@@ -1,7 +1,7 @@
 FROM node:alpine
 
 WORKDIR /app
-RUN apk add python make g++
+RUN apk add python3 make g++
 ADD package.json package-lock.json ./
 RUN npm install
 
