@@ -10,10 +10,10 @@ services:
       dockerfile: dev.Dockerfile
     environment:
       - VIRTUAL_HOST=vue-node-starter.localhost/api,vue-node-starter.localhost/api/*
-    expose:
-     - 3000
-    #ports:
-      #- 3000:3000
+    #expose:
+     #- 3000
+    ports:
+    - 3000:3000
     volumes:
       - ./backend/src:/app/src
 
