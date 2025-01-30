@@ -6,7 +6,7 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/event', async function (req, res, next) {
+router.post('/events', async function (req, res, next) {
   const { title } = req.body
   const event = new Event({title: title});
   await event.save();
@@ -16,10 +16,11 @@ router.post('/event', async function (req, res, next) {
   res.send(event);
 });
 
-router.post('/event/:eventid/questions', async function (req, res, next) {
+
+router.post('/events/:eventid/questions', async function (req, res, next) {
   const { eventid } = req.params
   const { text } = req.body
-  const event = await Event.findById({ eventid })
+  const event = await Event.findById({ _id: eventid })
   
   if(!event) return next(new Error('Event not found'))
 

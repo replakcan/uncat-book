@@ -27,5 +27,4 @@ Event.pre("save", async function(next) {
     this.code = code
 })
 
-
 module.exports = mongoose.model('Event', Event)
