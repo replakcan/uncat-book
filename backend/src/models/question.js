@@ -4,8 +4,9 @@ const Question = new mongoose.Schema({
     text: String,
     votes: Number,
     user: {
-        type: 'ObjectId',
-        ref: 'User'
+        /* type: 'ObjectId',
+        ref: 'User' */
+        type: String
     },
     is_highlighted: Boolean
 })
