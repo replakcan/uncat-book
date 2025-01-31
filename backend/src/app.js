@@ -2,12 +2,14 @@ var createError = require('http-errors');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors')
 
 require("./bootstrap");
 
 var indexRouter = require('./routes/index');
 
 var app = express();
+app.use(cors())
 
 // view engine setup
 app.set('view engine', 'pug');

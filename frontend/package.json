@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "@vue/eslint-config-standard": "^6.1.0",
+    "ant-design-vue": "^4.2.6",
+    "axios": "^1.7.9",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
     "eslint-plugin-vue": "^7.20.0",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13",
@@ -30,6 +33,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "lint-staged": "^11.1.2",
+    "pug": "^3.0.3",
+    "pug-plain-loader": "^1.1.0",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0"
   },
