@@ -1,4 +1,5 @@
 <script>
+import { notification } from 'ant-design-vue'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -6,20 +7,26 @@ export default {
   data () {
     return {
       question: '',
-      name: ''
+      name: undefined
     }
   },
   created () {
+    this.setProperty({ eventId: this.$route.params.eventId })
     this.fetchQuestions()
   },
   methods: {
-    ...mapActions(['submitQuestion', 'fetchQuestions']),
-    sendQuestion () {
-      this.submitQuestion({ question: this.question, name: this.name })
+    ...mapActions(['submitQuestion', 'fetchQuestions', 'setProperty']),
+    async sendQuestion () {
+      try {
+        await this.submitQuestion({ question: this.question, name: this.name })
+        this.question = ''
+      } catch (e) {
+        notification.error({ message: e.message })
+      }
     }
   },
   computed: {
-    ...mapState(['questions'])
+    ...mapState(['questions', 'loading'])
   }
 }
 </script>
@@ -27,10 +34,11 @@ export default {
 <template lang='pug'>
 .home
   div(v-for="question in questions")
+    p(v-if="loading") Loading...
     strong {{ question.user }}
     p {{ question.text }}
     p {{ question.votes }}
-  form
+  form(@submit.prevent="sendQuestion")
     a-textarea(
       v-model:value="question"
       placeholder="Type your question"
