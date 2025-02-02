@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 var app = require('../src/app');
 var debug = require('debug')('backend:server');
 var http = require('http');
@@ -21,6 +20,10 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+const socketConnection = require('../src/socket-connection')
+socketConnection(app, server)
+
+app.set('socketServer', socketConnection)
 /**
  * Listen on provided port, on all network interfaces.
  */
