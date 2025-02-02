@@ -13,6 +13,6 @@ const Question = new mongoose.Schema({
         default: "Anonymous"
     },
     is_highlighted: Boolean
-})
+}, { timestamps: true })
 
 module.exports = Question
