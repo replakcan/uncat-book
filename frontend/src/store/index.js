@@ -36,7 +36,6 @@ const store = createStore({
       } finally {
         commit(mutations.SET_PROPERTY, { loading: false })
       }
-      // dispatch('fetchQuestions')
     },
     async fetchQuestions ({ commit, state }) {
       const req = await axios.get(`http://localhost:3000/api/events/${state.eventId}/questions`)
