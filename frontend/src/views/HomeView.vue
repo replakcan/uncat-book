@@ -12,10 +12,11 @@ export default {
   },
   created () {
     this.setProperty({ eventId: this.$route.params.eventId })
+    this.joinEvent(this.$route.params.eventId)
     this.fetchQuestions()
   },
   methods: {
-    ...mapActions(['submitQuestion', 'fetchQuestions', 'setProperty']),
+    ...mapActions(['submitQuestion', 'fetchQuestions', 'setProperty', 'joinEvent']),
     async sendQuestion () {
       try {
         await this.submitQuestion({ question: this.question, name: this.name })
@@ -33,17 +34,16 @@ export default {
 
 <template lang='pug'>
 .home
-  div(v-for="question in questions")
-    p(v-if="loading") Loading...
-    strong {{ question.user }}
-    p {{ question.text }}
-    p {{ question.votes }}
-  form(@submit.prevent="sendQuestion")
+form(@submit.prevent="sendQuestion")
     a-textarea(
       v-model:value="question"
       placeholder="Type your question"
       :autoSize="{minRows: 2, maxRows: 6}"
     )
     a-input(placeholder="Your name (optional)" v-model:value="name")
-    a-button(type="primary" @click="sendQuestion") Send
+    a-button(type="primary" @click="sendQuestion" :disabled="loading") {{ loading ? 'Loading...' : 'Send'}}
+div(v-for="question in questions" :key="question._id")
+  strong {{ question.user }}
+  p {{ question.text }}
+  p {{ question.votes }}
 </template>
