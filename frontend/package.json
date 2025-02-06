@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.6.0",
     "@vue/eslint-config-standard": "^6.1.0",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.7.9",
@@ -29,6 +30,7 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "@vue/language-plugin-pug": "^2.2.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
