@@ -1,9 +1,14 @@
 <script>
+import { DislikeTwoTone, LikeTwoTone } from '@ant-design/icons-vue'
 import { notification } from 'ant-design-vue'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'HomeView',
+  components: {
+    LikeTwoTone,
+    DislikeTwoTone
+  },
   data () {
     return {
       question: '',
@@ -16,7 +21,7 @@ export default {
     this.fetchQuestions()
   },
   methods: {
-    ...mapActions(['submitQuestion', 'fetchQuestions', 'setProperty', 'joinEvent']),
+    ...mapActions(['submitQuestion', 'fetchQuestions', 'setProperty', 'joinEvent', 'vote']),
     async sendQuestion () {
       try {
         await this.submitQuestion({ question: this.question, name: this.name })
@@ -46,4 +51,9 @@ div(v-for="question in questions" :key="question._id")
   strong {{ question.user }}
   p {{ question.text }}
   p {{ question.votes }}
+    a-button-group
+      a-button(type='secondary' @click="vote({ questionId: question._id, vote: 'like' })")
+        LikeTwoTone
+      a-button(type='secondary' @click="vote({ questionId: question._id, vote: 'dislike' })")
+        DislikeTwoTone
 </template>
