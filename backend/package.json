@@ -7,14 +7,17 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
+    "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "express-session": "^1.18.1",
     "http-errors": "~1.6.2",
     "mongoose": "^8.9.5",
     "morgan": "~1.9.0",
     "nanoid": "^5.0.9",
     "pug": "^2.0.3",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "uuid": "^11.0.5"
   }
 }
