@@ -6,6 +6,10 @@ const Question = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    voters: {
+        type: [String],
+        default: []
+    },
     user: {
         /* type: 'ObjectId',
         ref: 'User' */
