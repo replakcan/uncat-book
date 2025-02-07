@@ -47,17 +47,19 @@ router.post("/events/:eventId/questions", async function (req, res, next) {
   }
 });
 
-router.patch(
-  "/events/:eventId/questions/:questionId",
-  async function (req, res, next) {
+router.patch("/events/:eventId/questions/:questionId", async function (req, res, next) {
     const { eventId, questionId } = req.params;
     const { vote } = req.body;
+    const { session } = req;
 
     const event = await Event.findById({ _id: eventId });
     if (!event) return next(new Error("Event not found"));
-
+    
     const filter = { _id: eventId, "questions._id": questionId };
-    const update = { $inc: { "questions.$.votes": vote == "like" ? 1 : -1 } };
+    const update = {
+      $inc: { "questions.$.votes": vote == "like" ? 1 : -1 },
+      $addToSet: { "questions.$.voters": session.id },
+    };
 
     try {
       await Event.findOneAndUpdate(filter, update, { new: true });
