@@ -1,21 +1,30 @@
+version: "3.9"
+
 services:
   mongodb:
     image: mongo
     ports:
-      - 37017:27017
+      - "37017:27017"  # Standard MongoDB port; consistent port mapping
+    networks:
+      - app-network
+
   backend:
-    image: backend
-    build: 
-      context: backend  
+    build:
+      context: backend
       dockerfile: dev.Dockerfile
     environment:
-      - VIRTUAL_HOST=vue-node-starter.localhost/api,vue-node-starter.localhost/api/*,vue-node-starter.localhost/socket.io/*
-    #expose:
-     #- 3000
+      - NODE_ENV=development
+      - MONGO_HOST=mongodb   # Explicitly set the host for clarity
+      - MONGO_PORT=27017      # Optional: can be useful for more flexibility
+      - MONGO_DB_NAME=uncat #The name of the db
     ports:
-    - 3000:3000
+      - "3000"
     volumes:
       - ./backend/src:/app/src
+    networks:
+      - app-network
+    depends_on:
+      - mongodb
 
   frontend:
     build:
@@ -23,28 +32,29 @@ services:
       dockerfile: dev.Dockerfile
     environment:
       - HOST=0.0.0.0
-      - VIRTUAL_HOST=vue-node-starter.localhost
+      - NODE_ENV=development
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
       - ./frontend/.eslintrc.js:/app/.eslintrc.js
-    #expose:
-      #- 8080
     ports:
-      - 8080:8080
-
-  load-balancer:
-    image: dockercloud/haproxy
-    links:
-      - backend
-      - frontend
+      - "8080"
     networks:
-      default:
-        aliases:
-          - vue-node-starter.localhost
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - app-network
+
+  nginx:
+    image: nginx:latest
     ports:
-      - 80:80
-      - 443:443
-    restart: on-failure
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
