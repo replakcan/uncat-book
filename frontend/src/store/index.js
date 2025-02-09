@@ -6,7 +6,7 @@ const mutations = {
   SET_PROPERTY: 'setProperty'
 }
 
-const socket = io('http://localhost:3000')
+const socket = io('http://vue-node-starter.localhost')
 
 window.ss = socket
 
@@ -29,7 +29,7 @@ const store = createStore({
     async submitQuestion ({ commit, dispatch, state }, { question, name }) {
       commit(mutations.SET_PROPERTY, { loading: true })
       try {
-        await axios.post(`http://localhost:3000/api/events/${state.eventId}/questions`, { text: question, user: name })
+        await axios.post(`/api/events/${state.eventId}/questions`, { text: question, user: name })
       } catch (e) {
         console.log(e)
         throw e
@@ -38,13 +38,13 @@ const store = createStore({
       }
     },
     async fetchQuestions ({ commit, state }) {
-      const req = await axios.get(`http://localhost:3000/api/events/${state.eventId}/questions`)
+      const req = await axios.get(`/api/events/${state.eventId}/questions`)
       commit(mutations.SET_PROPERTY, { questions: req.data })
     },
     async vote ({ commit, state }, { questionId, vote }) {
       commit(mutations.SET_PROPERTY, { loading: true })
       try {
-        await axios.patch(`http://localhost:3000/api/events/${state.eventId}/questions/${questionId}`, { vote })
+        await axios.patch(`/api/events/${state.eventId}/questions/${questionId}`, { vote })
       } catch (e) {
         console.log(e)
         throw e

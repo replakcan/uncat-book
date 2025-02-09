@@ -7,13 +7,13 @@ module.exports = (app, server) => {
 
     socketServer = io(server, {
         cors: {
-          origin: "http://localhost:8080",
+          origin: "*",
           methods: ["GET", "POST"]
-        }
+        },
+        path: '/socket.io/'
     });
 
     socketServer.on('connection', socket => {
-        
         socket.on('join-room', eventId => {
             socket.join(eventId)
         })
