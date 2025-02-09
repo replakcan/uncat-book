@@ -12,22 +12,21 @@ var indexRouter = require('./routes/index');
 
 var app = express();
 
+app.use(cors({
+  origin: '*',
+  credentials: true,
+}))
+
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2'],
   maxAge: 365 * 24 * 60 * 60 * 1000,
-  sameSite: 'lax',
 }))
 
 app.use(function (req, res, next) {
   req.session.id = req.session.id || uuid.v4()
   next()
 })
-
-app.use(cors({
-  origin: 'http://localhost:8080',
-  credentials: true,
-}))
 
 // view engine setup
 app.set('view engine', 'pug');
