@@ -13,6 +13,12 @@ const Event = new mongoose.Schema({
         type: 'ObjectId',
         ref: 'User'
     }]
+}, { toJSON: {
+        transform(doc, ret, options) {
+            console.log('transformers')
+            return ret
+        }
+    } 
 })
 
 Event.pre("save", async function(next) {
@@ -25,6 +31,15 @@ Event.pre("save", async function(next) {
     } while (await mongoose.models["Event"].findOne({ code }))
     
     this.code = code
+})
+
+
+Event.static('decorateForUser', async function (event, userId) {
+    await event.questions.forEach((question) => {
+        question.voted = question.voters.includes(userId)
+    })
+
+    return event
 })
 
 module.exports = mongoose.model('Event', Event)
