@@ -1,5 +1,5 @@
 <script>
-import { DislikeTwoTone, LikeTwoTone } from '@ant-design/icons-vue'
+import { DislikeTwoTone, LikeTwoTone, LikeOutlined, DislikeOutlined, SendOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { notification } from 'ant-design-vue'
 import { mapActions, mapState } from 'vuex'
 
@@ -7,7 +7,11 @@ export default {
   name: 'HomeView',
   components: {
     LikeTwoTone,
-    DislikeTwoTone
+    DislikeTwoTone,
+    LikeOutlined,
+    DislikeOutlined,
+    SendOutlined,
+    LoadingOutlined
   },
   data () {
     return {
@@ -47,13 +51,14 @@ form(@submit.prevent="sendQuestion")
     )
     a-input(placeholder="Your name (optional)" v-model:value="name")
     a-button(type="primary" @click="sendQuestion" :disabled="loading") {{ loading ? 'Loading...' : 'Send'}}
+      component(:is="loading ? 'LoadingOutlined' : 'SendOutlined'")
 div(v-for="question in questions" :key="question._id")
-  strong {{ question.user }}
-  p {{ question.text }}
-  p {{ question.votes }}
-    a-button-group
-      a-button(type='secondary' @click="vote({ questionId: question._id, vote: 'like' })")
-        LikeTwoTone
-      a-button(type='secondary' @click="vote({ questionId: question._id, vote: 'dislike' })")
-        DislikeTwoTone
+  p Question: {{ question.text }}
+  strong Author: {{ question.user }}
+  div
+    p {{ question.voters.length }}
+    div
+      a-button-group
+        a-button(:type="question.voted ? 'primary' : 'ghost'" @click="vote({ questionId: question._id, vote: question.voted ? 'dislike' : 'like'})")
+          component(:is="'LikeOutlined'")
 </template>
