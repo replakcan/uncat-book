@@ -17,21 +17,30 @@ router.post("/events", async function (req, res, next) {
 
 router.get("/events/:eventId/questions", async function (req, res, next) {
   const { eventId } = req.params;
+  const { session } = req;
 
-  const event = await Event.findById({ _id: eventId });
+  const event = await Event.findOne({_id: eventId});
+
   if (!event) return next(new Error("Event not found"));
-
+  
+  Event.decorateForUser(event, session.id);
+  
   event.questions.sort((a, b) => b.createdAt - a.createdAt);
-
+  event.questions.forEach((q) => console.log(q.voted))
   res.send(event.questions);
 });
 
 router.post("/events/:eventId/questions", async function (req, res, next) {
   const { eventId } = req.params;
   const { text, user } = req.body;
+  const { session } = req;
 
-  const event = await Event.findById({ _id: eventId });
+
+  const event = await Event.findOne({_id: eventId});
+  
   if (!event) return next(new Error("Event not found"));
+  
+  Event.decorateForUser(event, session.id);
 
   event.questions.push({ text, user });
 
@@ -49,32 +58,30 @@ router.post("/events/:eventId/questions", async function (req, res, next) {
 
 router.patch("/events/:eventId/questions/:questionId", async function (req, res, next) {
     const { eventId, questionId } = req.params;
-    const { vote } = req.body;
     const { session } = req;
+    const { vote } = req.body;
 
-    const event = await Event.findById({ _id: eventId });
-    if (!event) return next(new Error("Event not found"));
+    const update = {}
+    const predicate = { "questions.$.voters": session.id }
+    
+    if (vote == 'like') update.$addToSet = predicate
+    else if (vote == 'dislike') update.$pull = predicate
     
     const filter = { _id: eventId, "questions._id": questionId };
-    const update = {
-      $inc: { "questions.$.votes": vote == "like" ? 1 : -1 },
-      $addToSet: { "questions.$.voters": session.id },
-    };
+    
+    const event = await Event.findOneAndUpdate(filter, update, { new: true });
+    
+    if (!event) return next(new Error("Event not found"));
 
-    try {
-      await Event.findOneAndUpdate(filter, update, { new: true });
-
-      const updatedEvent = await Event.findById(eventId);
-      updatedEvent.questions.sort((a, b) => b.createdAt - a.createdAt);
-
-      event.questions.sort((a, b) => b.createdAt - a.createdAt);
-      socketServer().to(eventId).emit("questions updated", updatedEvent.questions);
-
-      res.sendStatus(200);
-    } catch (e) {
-      console.log(e);
-      next(e);
-    }
+    Event.decorateForUser(event, session.id);
+    
+    event.questions.sort((a, b) => b.createdAt - a.createdAt);
+    
+    await event.save();
+    
+    socketServer().to(eventId).emit("questions updated", event.questions);
+        
+    res.sendStatus(200);
   }
 );
 
