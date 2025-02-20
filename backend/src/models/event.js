@@ -13,9 +13,8 @@ const Event = new mongoose.Schema({
         type: 'ObjectId',
         ref: 'User'
     }]
-}, { toJSON: {
+}, { toObject: {
         transform(doc, ret, options) {
-            console.log('transformers')
             return ret
         }
     } 
@@ -29,7 +28,7 @@ Event.pre("save", async function(next) {
     do {
         code = nanoId.nanoid()
     } while (await mongoose.models["Event"].findOne({ code }))
-    
+
     this.code = code
 })
 
