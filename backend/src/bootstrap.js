@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-const mongoHost = process.env.MONGO_HOST || 'mongodb';
-const mongoPort = process.env.MONGO_PORT || '27017';
+const mongoHost = process.env.MONGO_HOST || 'localhost';
+const mongoPort = process.env.MONGO_PORT || '37017';
 const dbName = process.env.MONGO_DB_NAME || 'uncat';
 
 const mongoURI = `mongodb://${mongoHost}:${mongoPort}/${dbName}`;
+
 
 async function connectWithRetry() {
   try {

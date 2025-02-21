@@ -1,47 +1,39 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "uncat-book-frontend",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.6.0",
-    "@vue/eslint-config-standard": "^6.1.0",
-    "ant-design-vue": "^4.2.6",
+    "@tailwindcss/vite": "^4.0.7",
     "axios": "^1.7.9",
-    "core-js": "^3.8.3",
     "cors": "^2.8.5",
-    "eslint-plugin-vue": "^7.20.0",
-    "register-service-worker": "^1.7.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
+    "react-redux": "^9.2.0",
+    "react-router": "^7.2.0",
+    "redux": "^5.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^3.1.0",
     "socket.io-client": "^4.8.1",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "tailwindcss": "^4.0.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-pwa": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "@vue/language-plugin-pug": "^2.2.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "lint-staged": "^11.1.2",
-    "pug": "^3.0.3",
-    "pug-plain-loader": "^1.1.0",
-    "sass": "^1.32.7",
-    "sass-loader": "^12.0.0"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+    "@eslint/js": "^9.19.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.14.0",
+    "vite": "^6.1.0"
   }
 }

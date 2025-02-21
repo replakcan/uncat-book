@@ -36,9 +36,8 @@ services:
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
-      - ./frontend/.eslintrc.js:/app/.eslintrc.js
     ports:
-      - "8080"
+      - "5173"
     networks:
       - app-network
 
