@@ -6,7 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    host: '0.0.0.0', // Force Vite to listen on IPv4 0.0.0.0
-    port: 5173,      // (Optional, but good to explicitly set port too)
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    cors: true,
+    origin: 'http://react-node-starter.localhost',
   },
 })
